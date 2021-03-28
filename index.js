@@ -10,7 +10,6 @@ connectDB();
 // Use middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors(corsOptions));
 
 const whitelist = [
   "http://localhost:3000",
@@ -29,7 +28,7 @@ const corsOptions = {
     }
   },
 };
-
+app.use(cors(corsOptions));
 // Main Route
 app.get("/", (req, res) => {
   res.send("Main");
