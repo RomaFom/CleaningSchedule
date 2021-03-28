@@ -11,6 +11,11 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//Define routes
+app.use("/api/workers", require("./routes/api/workers"));
+app.use("/api/schedule", require("./routes/api/schedule"));
+app.use(express.static(path.join(__dirname, "/client/build")));
+
 const whitelist = [
   "http://localhost:3000",
   "http://localhost:5000",
@@ -28,22 +33,16 @@ const corsOptions = {
     }
   },
 };
+
 app.use(cors(corsOptions));
 // Main Route
 app.get("/", (req, res) => {
-  res.send("Main");
+  res.sendFile(path.join(__dirname, "/client/build/index.html"));
 });
 
-//Define routes
-app.use("/api/workers", require("./routes/api/workers"));
-app.use("/api/schedule", require("./routes/api/schedule"));
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "client/build")));
-  app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
-  });
-}
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "/client/build/index.html"));
+});
 
 // Port listen
 const port = process.env.PORT || 5000;
