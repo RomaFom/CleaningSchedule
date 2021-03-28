@@ -30,7 +30,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 // Main Route
-app.get("/", (req, res) => {
+app.get("/routes/api/schedule", (req, res) => {
   res.send("Main");
 });
 
